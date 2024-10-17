@@ -1,10 +1,10 @@
-import { useReadContracts, useWaitForTransactionReceipt } from 'wagmi'
-import { generatePrivateKey, privateKeyToAddress } from 'viem/accounts'
 import { encodeFunctionData, formatEther, parseEther } from 'viem'
+import { generatePrivateKey, privateKeyToAddress } from 'viem/accounts'
+import { useReadContracts, useWaitForTransactionReceipt } from 'wagmi'
 
-import { ExperimentERC20 } from '../contracts'
 import { client } from '../config'
-import { Account } from '../modules/DelegatedAccount'
+import { ExperimentERC20 } from '../contracts'
+import { Account } from '../modules/Account'
 
 const alice = privateKeyToAddress(generatePrivateKey())
 const bob = privateKeyToAddress(generatePrivateKey())
@@ -131,7 +131,10 @@ export function Send({ account }: { account: Account.Account }) {
             <td>Self</td>
             <td align="right">{formatExp(selfBalance.result)} EXP</td>
             <td align="right">
-              <button disabled={selfBalance.result === 0n || isPending} type="submit">
+              <button
+                disabled={selfBalance.result === 0n || isPending}
+                type="submit"
+              >
                 Send
               </button>
             </td>

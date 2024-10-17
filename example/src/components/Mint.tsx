@@ -1,9 +1,9 @@
 import { type BaseError, encodeFunctionData, parseEther } from 'viem'
 
+import { useWaitForTransactionReceipt } from 'wagmi'
 import { client } from '../config'
 import { ExperimentERC20 } from '../contracts'
-import { Account } from '../modules/DelegatedAccount'
-import { useWaitForTransactionReceipt } from 'wagmi'
+import { Account } from '../modules/Account'
 
 export function Mint({ account }: { account: Account.Account }) {
   const {

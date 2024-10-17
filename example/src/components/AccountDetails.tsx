@@ -3,7 +3,7 @@ import { useReadContract } from 'wagmi'
 
 import { client } from '../config'
 import { ExperimentERC20 } from '../contracts'
-import type { Account } from '../modules/DelegatedAccount'
+import type { Account } from '../modules/Account'
 
 export function AccountDetails({ account }: { account: Account.Account }) {
   const { data: expBalance } = useReadContract({

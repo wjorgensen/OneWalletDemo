@@ -1,7 +1,7 @@
 import type { BaseError } from 'viem'
 
 import { client } from '../config'
-import { Account } from '../modules/DelegatedAccount'
+import { Account } from '../modules/Account'
 
 export function InitializeAccount() {
   const { data: hash, ...createMutation } = Account.useCreate({

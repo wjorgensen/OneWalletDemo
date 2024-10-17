@@ -3,7 +3,7 @@ import { InitializeAccount } from './components/InitializeAccount'
 import { Mint } from './components/Mint'
 import { Send } from './components/Send'
 import { client } from './config'
-import { Account } from './modules/DelegatedAccount'
+import { Account } from './modules/Account'
 
 export function App() {
   const { data: account } = Account.useQuery()
@@ -25,7 +25,8 @@ export function App() {
 
       <h2>1. Initialize</h2>
       <p>
-        Initialize a new EOA controlled by a WebAuthn key. You can either create a new one or use an existing.
+        Initialize a new EOA controlled by a WebAuthn key. You can either create
+        a new one or use an existing.
       </p>
       <InitializeAccount />
 
