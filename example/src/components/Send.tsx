@@ -11,8 +11,7 @@ const bob = privateKeyToAddress(generatePrivateKey())
 
 export function Send({ account }: { account: Account.Account }) {
   const balanceOf = {
-    address: ExperimentERC20.address,
-    abi: ExperimentERC20.abi,
+    ...ExperimentERC20,
     functionName: 'balanceOf',
   } as const
 

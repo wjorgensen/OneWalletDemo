@@ -7,8 +7,7 @@ import type { Account } from '../modules/DelegatedAccount'
 
 export function AccountDetails({ account }: { account: Account.Account }) {
   const { data: expBalance } = useReadContract({
-    address: ExperimentERC20.address,
-    abi: ExperimentERC20.abi,
+    ...ExperimentERC20,
     functionName: 'balanceOf',
     args: [account.address],
     query: {
