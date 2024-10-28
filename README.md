@@ -1,16 +1,29 @@
 # EXP-0001: Account Delegation with EIP-7702
 
-## Contracts
+## Overview
+
+Exploration of utilizing [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) to designate an experimental Delegation Contract (with basic P256 Authorization & Batch Call capabilities) onto an EOA. This experiment also leverages a Sequencer to [enable sponsored transactions](https://ithaca.xyz/writings/orc-0001) via an `odyssey_sendTransaction` RPC method. 
+
+[Read the Blog Post](https://www.ithaca.xyz/writings/exp-0001)
+
+## Getting Started
+
+### Example 
 
 ```shell
-$ forge build # Build
-$ forge test # Test
-$ forge fmt # Format
-$ forge snapshot # Gas Snapshots
+# Install pnpm
+$ curl -fsSL https://get.pnpm.io/install.sh | sh - 
+
+$ pnpm install # Install modules
+$ pnpm dev # Run
 ```
 
-## Example
+### Contracts
 
 ```shell
-$ pnpm dev # Run
+# Install Foundry
+$ foundryup
+
+$ forge build # Build
+$ forge test # Test
 ```
