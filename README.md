@@ -1,10 +1,10 @@
 # EXP-0001: Account Delegation with EIP-7702
 
+[Read the Blog Post](https://www.ithaca.xyz/writings/exp-0001)
+
 ## Overview
 
 Exploration of utilizing [EIP-7702](https://eips.ethereum.org/EIPS/eip-7702) to designate an experimental Delegation Contract (with basic P256 Authorization & Batch Call capabilities) onto an EOA. This experiment also leverages a Sequencer to [enable sponsored transactions](https://ithaca.xyz/writings/orc-0001) via an `odyssey_sendTransaction` RPC method. 
-
-[Read the Blog Post](https://www.ithaca.xyz/writings/exp-0001)
 
 ## Getting Started
 
