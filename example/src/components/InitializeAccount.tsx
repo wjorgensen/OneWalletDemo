@@ -19,14 +19,14 @@ export function InitializeAccount() {
         onClick={() => createMutation.mutate()}
         type="button"
       >
-        Create Passkey
+        Register
       </button>
       <button
         disabled={isPending}
         onClick={() => loadMutation.mutate()}
         type="button"
       >
-        Import Passkey
+        Sign In
       </button>
       {hash && (
         <p>
