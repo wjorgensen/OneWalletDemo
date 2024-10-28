@@ -199,7 +199,7 @@ export namespace Account {
     const nonce = await readContract(client, {
       abi: ExperimentDelegation.abi,
       address: account.address,
-      functionName: 'executeNonce',
+      functionName: 'nonce',
     })
 
     // Encode calls into format required by the contract.

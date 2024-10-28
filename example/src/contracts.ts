@@ -1,5 +1,7 @@
 export const ExperimentDelegation = {
   abi: [
+    { type: 'fallback', stateMutability: 'payable' },
+    { type: 'receive', stateMutability: 'payable' },
     {
       type: 'function',
       name: 'authorize',
@@ -16,7 +18,7 @@ export const ExperimentDelegation = {
         {
           name: 'keyType',
           type: 'uint8',
-          internalType: 'enum P256BatchDelegation.KeyType',
+          internalType: 'enum ExperimentDelegation.KeyType',
         },
         { name: 'expiry', type: 'uint256', internalType: 'uint256' },
       ],
@@ -41,7 +43,7 @@ export const ExperimentDelegation = {
         {
           name: 'keyType',
           type: 'uint8',
-          internalType: 'enum P256BatchDelegation.KeyType',
+          internalType: 'enum ExperimentDelegation.KeyType',
         },
         { name: 'expiry', type: 'uint256', internalType: 'uint256' },
         {
@@ -59,13 +61,6 @@ export const ExperimentDelegation = {
         { name: 'publicKeyIndex', type: 'uint32', internalType: 'uint32' },
       ],
       stateMutability: 'nonpayable',
-    },
-    {
-      type: 'function',
-      name: 'authorizeNonce',
-      inputs: [],
-      outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-      stateMutability: 'view',
     },
     {
       type: 'function',
@@ -132,13 +127,6 @@ export const ExperimentDelegation = {
     },
     {
       type: 'function',
-      name: 'executeNonce',
-      inputs: [],
-      outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-      stateMutability: 'view',
-    },
-    {
-      type: 'function',
       name: 'keys',
       inputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
       outputs: [
@@ -147,7 +135,7 @@ export const ExperimentDelegation = {
         {
           name: 'keyType',
           type: 'uint8',
-          internalType: 'enum P256BatchDelegation.KeyType',
+          internalType: 'enum ExperimentDelegation.KeyType',
         },
         {
           name: 'publicKey',
@@ -167,6 +155,13 @@ export const ExperimentDelegation = {
       inputs: [{ name: 'transactions', type: 'bytes', internalType: 'bytes' }],
       outputs: [],
       stateMutability: 'payable',
+    },
+    {
+      type: 'function',
+      name: 'nonce',
+      inputs: [],
+      outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
+      stateMutability: 'view',
     },
     {
       type: 'function',
@@ -201,7 +196,7 @@ export const ExperimentDelegation = {
     { type: 'error', name: 'KeyExpired', inputs: [] },
     { type: 'error', name: 'KeyNotAuthorized', inputs: [] },
   ],
-  address: '0x35202a6E6317F3CC3a177EeEE562D3BcDA4a6FcC',
+  address: '0x685641EbFDC2c04201d4E09f04712F41cc727567',
 } as const
 
 export const ExperimentERC20 = {
