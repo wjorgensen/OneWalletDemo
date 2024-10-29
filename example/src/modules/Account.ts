@@ -102,7 +102,6 @@ export namespace Account {
     client,
     publicKey,
   }: { account: PrivateKeyAccount; client: Client; publicKey: PublicKey }) {
-    const keyType = 1 // WebAuthnP256
     const nonce = 0n // initial nonce will always be 0
     const expiry = 0n // no expiry
 
@@ -136,12 +135,11 @@ export namespace Account {
           x: publicKey.x,
           y: publicKey.y,
         },
-        keyType,
         expiry,
         {
-          ...signature,
           r: BigInt(signature.r),
           s: BigInt(signature.s),
+          yParity: signature.yParity,
         },
       ],
       authorizationList: [authorization],
@@ -166,7 +164,7 @@ export namespace Account {
     const address = bytesToHex(new Uint8Array(response.userHandle!))
 
     // Extract the authorized WebAuthn key from the delegated EOA's contract.
-    const [, , , publicKey] = await readContract(client, {
+    const [, , publicKey] = await readContract(client, {
       address,
       abi: ExperimentDelegation.abi,
       functionName: 'keys',
@@ -238,7 +236,7 @@ export namespace Account {
       abi: ExperimentDelegation.abi,
       address: account.address,
       functionName: 'execute',
-      args: [calls_encoded, { r, s }, webauthn, 0, false],
+      args: [calls_encoded, { r, s }, webauthn, 0],
       account: null, // defer to sequencer to fill
     })
   }

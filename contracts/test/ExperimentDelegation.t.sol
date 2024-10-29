@@ -49,13 +49,12 @@ contract ExperimentDelegationTest is Test {
 
         vm.prank(address(delegation));
         vm.resumeGasMetering();
-        delegation.authorize(publicKey, ExperimentDelegation.KeyType.P256, 0);
+        delegation.authorize(publicKey, 0);
         vm.pauseGasMetering();
 
         (
             bool authorized,
             uint256 expiry,
-            ExperimentDelegation.KeyType keyType,
             ECDSA.PublicKey memory authorizedPublicKey
         ) = delegation.keys(0);
         assertEq(authorized, true);
@@ -74,7 +73,7 @@ contract ExperimentDelegationTest is Test {
 
         vm.resumeGasMetering();
         vm.expectRevert(ExperimentDelegation.InvalidAuthority.selector);
-        delegation.authorize(publicKey, ExperimentDelegation.KeyType.P256, 0);
+        delegation.authorize(publicKey, 0);
     }
 
     function test_revoke() public {
@@ -84,7 +83,7 @@ contract ExperimentDelegationTest is Test {
         ECDSA.PublicKey memory publicKey = ECDSA.PublicKey(x, y);
 
         vm.prank(address(delegation));
-        delegation.authorize(publicKey, ExperimentDelegation.KeyType.P256, 0);
+        delegation.authorize(publicKey, 0);
 
         delegation.keys(0);
 
@@ -96,7 +95,6 @@ contract ExperimentDelegationTest is Test {
         (
             bool authorized,
             uint256 expiry,
-            ExperimentDelegation.KeyType keyType,
             ECDSA.PublicKey memory authorizedPublicKey
         ) = delegation.keys(0);
         assertEq(authorized, false);
@@ -143,7 +141,6 @@ contract ExperimentDelegationTest is Test {
         vm.prank(address(delegation));
         delegation.authorize(
             ECDSA.PublicKey(x, y),
-            ExperimentDelegation.KeyType.P256,
             0
         );
 
@@ -200,7 +197,6 @@ contract ExperimentDelegationTest is Test {
         vm.prank(address(delegation));
         delegation.authorize(
             ECDSA.PublicKey(x, y),
-            ExperimentDelegation.KeyType.P256,
             0
         );
 
@@ -256,7 +252,6 @@ contract ExperimentDelegationTest is Test {
         vm.prank(address(delegation));
         delegation.authorize(
             ECDSA.PublicKey(x, y),
-            ExperimentDelegation.KeyType.P256,
             block.timestamp
         );
 
@@ -309,7 +304,6 @@ contract ExperimentDelegationTest is Test {
         vm.prank(address(delegation));
         delegation.authorize(
             ECDSA.PublicKey(x, y),
-            ExperimentDelegation.KeyType.P256,
             0
         );
 

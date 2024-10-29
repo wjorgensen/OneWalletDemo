@@ -15,16 +15,19 @@ export const ExperimentDelegation = {
             { name: 'y', type: 'uint256', internalType: 'uint256' },
           ],
         },
-        {
-          name: 'keyType',
-          type: 'uint8',
-          internalType: 'enum ExperimentDelegation.KeyType',
-        },
         { name: 'expiry', type: 'uint256', internalType: 'uint256' },
+        {
+          name: 'signature',
+          type: 'tuple',
+          internalType: 'struct ECDSA.RecoveredSignature',
+          components: [
+            { name: 'r', type: 'uint256', internalType: 'uint256' },
+            { name: 's', type: 'uint256', internalType: 'uint256' },
+            { name: 'yParity', type: 'uint8', internalType: 'uint8' },
+          ],
+        },
       ],
-      outputs: [
-        { name: 'publicKeyIndex', type: 'uint32', internalType: 'uint32' },
-      ],
+      outputs: [{ name: 'keyIndex', type: 'uint32', internalType: 'uint32' }],
       stateMutability: 'nonpayable',
     },
     {
@@ -40,52 +43,15 @@ export const ExperimentDelegation = {
             { name: 'y', type: 'uint256', internalType: 'uint256' },
           ],
         },
-        {
-          name: 'keyType',
-          type: 'uint8',
-          internalType: 'enum ExperimentDelegation.KeyType',
-        },
         { name: 'expiry', type: 'uint256', internalType: 'uint256' },
-        {
-          name: 'signature',
-          type: 'tuple',
-          internalType: 'struct ECDSA.RecoveredSignature',
-          components: [
-            { name: 'r', type: 'uint256', internalType: 'uint256' },
-            { name: 's', type: 'uint256', internalType: 'uint256' },
-            { name: 'yParity', type: 'uint8', internalType: 'uint8' },
-          ],
-        },
       ],
-      outputs: [
-        { name: 'publicKeyIndex', type: 'uint32', internalType: 'uint32' },
-      ],
+      outputs: [{ name: 'keyIndex', type: 'uint32', internalType: 'uint32' }],
       stateMutability: 'nonpayable',
     },
     {
       type: 'function',
       name: 'execute',
       inputs: [{ name: 'calls', type: 'bytes', internalType: 'bytes' }],
-      outputs: [],
-      stateMutability: 'nonpayable',
-    },
-    {
-      type: 'function',
-      name: 'execute',
-      inputs: [
-        { name: 'calls', type: 'bytes', internalType: 'bytes' },
-        {
-          name: 'signature',
-          type: 'tuple',
-          internalType: 'struct ECDSA.Signature',
-          components: [
-            { name: 'r', type: 'uint256', internalType: 'uint256' },
-            { name: 's', type: 'uint256', internalType: 'uint256' },
-          ],
-        },
-        { name: 'publicKeyIndex', type: 'uint32', internalType: 'uint32' },
-        { name: 'prehash', type: 'bool', internalType: 'bool' },
-      ],
       outputs: [],
       stateMutability: 'nonpayable',
     },
@@ -119,7 +85,26 @@ export const ExperimentDelegation = {
             },
           ],
         },
-        { name: 'publicKeyIndex', type: 'uint32', internalType: 'uint32' },
+        { name: 'keyIndex', type: 'uint32', internalType: 'uint32' },
+      ],
+      outputs: [],
+      stateMutability: 'nonpayable',
+    },
+    {
+      type: 'function',
+      name: 'execute',
+      inputs: [
+        { name: 'calls', type: 'bytes', internalType: 'bytes' },
+        {
+          name: 'signature',
+          type: 'tuple',
+          internalType: 'struct ECDSA.Signature',
+          components: [
+            { name: 'r', type: 'uint256', internalType: 'uint256' },
+            { name: 's', type: 'uint256', internalType: 'uint256' },
+          ],
+        },
+        { name: 'keyIndex', type: 'uint32', internalType: 'uint32' },
         { name: 'prehash', type: 'bool', internalType: 'bool' },
       ],
       outputs: [],
@@ -132,11 +117,6 @@ export const ExperimentDelegation = {
       outputs: [
         { name: 'authorized', type: 'bool', internalType: 'bool' },
         { name: 'expiry', type: 'uint256', internalType: 'uint256' },
-        {
-          name: 'keyType',
-          type: 'uint8',
-          internalType: 'enum ExperimentDelegation.KeyType',
-        },
         {
           name: 'publicKey',
           type: 'tuple',
@@ -166,9 +146,7 @@ export const ExperimentDelegation = {
     {
       type: 'function',
       name: 'revoke',
-      inputs: [
-        { name: 'publicKeyIndex', type: 'uint32', internalType: 'uint32' },
-      ],
+      inputs: [{ name: 'keyIndex', type: 'uint32', internalType: 'uint32' }],
       outputs: [],
       stateMutability: 'nonpayable',
     },
@@ -176,7 +154,7 @@ export const ExperimentDelegation = {
       type: 'function',
       name: 'revoke',
       inputs: [
-        { name: 'publicKeyIndex', type: 'uint32', internalType: 'uint32' },
+        { name: 'keyIndex', type: 'uint32', internalType: 'uint32' },
         {
           name: 'signature',
           type: 'tuple',
@@ -196,7 +174,7 @@ export const ExperimentDelegation = {
     { type: 'error', name: 'KeyExpired', inputs: [] },
     { type: 'error', name: 'KeyNotAuthorized', inputs: [] },
   ],
-  address: '0x685641EbFDC2c04201d4E09f04712F41cc727567',
+  address: '0x6bbce6b04736f9db8d3dbE509b87Da3BC1435439',
 } as const
 
 export const ExperimentERC20 = {
