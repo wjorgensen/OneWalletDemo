@@ -1,5 +1,7 @@
 # EXP-0001: Account Delegation with EIP-7702
 
+<video src="/.github/exp-0001.mp4" controls></video>
+
 [Read the Blog Post](https://www.ithaca.xyz/writings/exp-0001)
 
 ## Overview
