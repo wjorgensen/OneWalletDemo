@@ -10,5 +10,9 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.2",
     "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "react-query": "^3.39.3",
+    "react-router-dom": "^7.0.1"
   }
 }

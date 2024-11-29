@@ -1,0 +1,18 @@
+.accountDetails {
+  text-align: center;
+  width: 100%;
+}
+
+.balance {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.balanceAmount {
+  font-size: 8rem;
+  font-weight: 900;
+  font-family: 'Commissioner', sans-serif;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}

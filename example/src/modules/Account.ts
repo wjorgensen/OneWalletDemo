@@ -28,6 +28,7 @@ import {
 
 import { type Client, queryClient } from '../config'
 import { ExperimentDelegation } from '../contracts'
+import { BaseError } from 'viem' // Import BaseError
 
 export namespace Account {
   /////////////////////////////////////////////////////////
@@ -56,7 +57,7 @@ export namespace Account {
    * Generates a new EOA and injects the ExperimentDelegation contract onto it
    * with an authorized WebAuthn public key.
    */
-  export async function create({ client }: { client: Client }) {
+  export async function create({ client }: { client: Client }): Promise<Account> {
     // Generate a new EOA. This Account will be used to inject the ExperimentDelegation
     // contract onto it.
     const account = privateKeyToAccount(generatePrivateKey())
@@ -81,16 +82,18 @@ export namespace Account {
 
     await waitForTransactionReceipt(client, { hash })
 
-    queryClient.setQueryData(['account'], {
+    const accountData: Account = {
       address: account.address,
       authTransactionHash: hash,
       key: {
         id: credential.id,
         publicKey,
       },
-    })
+    }
 
-    return hash
+    queryClient.setQueryData(['account'], accountData)
+
+    return accountData // Return the account data
   }
 
   /**
@@ -153,7 +156,7 @@ export namespace Account {
    * Imports an existing EOA that holds an authorized WebAuthn public key
    * into account state.
    */
-  export async function load({ client }: { client: Client }) {
+  export async function load({ client }: { client: Client }): Promise<Account> {
     // Sign an empty hash to extract the user's WebAuthn credential.
     const { raw } = await sign({
       hash: '0x',
@@ -161,7 +164,7 @@ export namespace Account {
 
     // Extract the EOA address from the WebAuthn user handle.
     const response = raw.response as AuthenticatorAssertionResponse
-    const address = bytesToHex(new Uint8Array(response.userHandle!))
+    const address = bytesToHex(new Uint8Array(response.userHandle!)) as Address
 
     // Extract the authorized WebAuthn key from the delegated EOA's contract.
     const [, , publicKey] = await readContract(client, {
@@ -171,14 +174,17 @@ export namespace Account {
       args: [0n],
     })
 
-    queryClient.setQueryData(['account'], {
+    const accountData: Account = {
       address,
-      delegation: ExperimentDelegation.address,
       key: {
         id: raw.id,
         publicKey,
       },
-    })
+    }
+
+    queryClient.setQueryData(['account'], accountData)
+
+    return accountData // Return the account data
   }
 
   /**
@@ -251,9 +257,16 @@ export namespace Account {
     return useQuery_<Account>({ queryKey })
   }
 
-  export function useCreate({ client }: { client: Client }) {
-    return useMutation({
+  export function useCreate({
+    client,
+    onSuccess,
+  }: {
+    client: Client
+    onSuccess?: (account: Account) => void
+  }) {
+    return useMutation<Account, BaseError>({
       mutationFn: async () => await create({ client }),
+      onSuccess,
     })
   }
 
@@ -269,9 +282,16 @@ export namespace Account {
     })
   }
 
-  export function useLoad({ client }: { client: Client }) {
-    return useMutation({
+  export function useLoad({
+    client,
+    onSuccess,
+  }: {
+    client: Client
+    onSuccess?: (account: Account) => void
+  }) {
+    return useMutation<Account, BaseError>({
       mutationFn: async () => await load({ client }),
+      onSuccess,
     })
   }
 }

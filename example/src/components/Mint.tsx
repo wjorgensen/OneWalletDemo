@@ -2,10 +2,18 @@ import { type BaseError, encodeFunctionData, parseEther } from 'viem'
 
 import { useWaitForTransactionReceipt } from 'wagmi'
 import { client } from '../config'
-import { ExperimentERC20 } from '../contracts'
+import { tUSDC } from '../contracts'
 import { Account } from '../modules/Account'
+import React from 'react'
+import styles from '../styles/Mint.module.scss'
 
-export function Mint({ account }: { account: Account.Account }) {
+interface MintProps {
+  account: Account.Account
+  amount?: string
+  onSuccess?: () => void
+}
+
+export function Mint({ account, amount = '100', onSuccess }: MintProps) {
   const {
     data: hash,
     mutate: execute,
@@ -21,43 +29,42 @@ export function Mint({ account }: { account: Account.Account }) {
     receiptQuery.fetchStatus === 'fetching' || executeQuery.isPending
   const isSuccess = receiptQuery.isSuccess && executeQuery.isSuccess
 
+  React.useEffect(() => {
+    if (isSuccess && hash) {
+      const explorerUrl = `${client.chain.blockExplorers.default.url}/tx/${hash}`
+      console.log('Mint Status: Success')
+      console.log('Block Explorer URL:', explorerUrl)
+      if (onSuccess) onSuccess()
+    }
+  }, [isSuccess, hash, onSuccess])
+
+  const handleMint = () => {
+    execute({
+      account,
+      calls: [
+        {
+          to: tUSDC.address,
+          data: encodeFunctionData({
+            abi: tUSDC.abi,
+            functionName: 'mint',
+            args: [account.address, parseEther(amount)],
+          }),
+        },
+      ],
+    })
+  }
+
   return (
-    <div>
-      <p>Mint some EXP (ERC20) to your account by clicking the button below.</p>
+    <div className={styles.mintContainer}>
       <button
         disabled={isPending || isSuccess}
-        onClick={() =>
-          execute({
-            account,
-            calls: [
-              {
-                to: ExperimentERC20.address,
-                data: encodeFunctionData({
-                  abi: ExperimentERC20.abi,
-                  functionName: 'mint',
-                  args: [account.address, parseEther('100')],
-                }),
-              },
-            ],
-          })
-        }
+        onClick={handleMint}
         type="button"
+        className={styles.button}
       >
-        {isPending ? 'Minting...' : 'Mint 100 EXP'}
+        {isPending ? 'Minting...' : `Mint ${amount} tUSDC`}
       </button>
-      {error && <p>{(error as BaseError).shortMessage ?? error.message}</p>}
-      {isSuccess && (
-        <p>
-          Minted 100 EXP ·{' '}
-          <a
-            href={`${client.chain.blockExplorers.default.url}/tx/${hash}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Explorer
-          </a>
-        </p>
-      )}
+      {error && <p className={styles.error}>{(error as BaseError).shortMessage ?? error.message}</p>}
     </div>
   )
 }
